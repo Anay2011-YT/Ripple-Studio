@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ripple Studio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --bg-light: #f7f9fb;
+      --bg-dark: #121212;
+      --text-light: #222;
+      --text-dark: #f1f1f1;
+      --card-light: #fff;
+      --card-dark: #1e1e1e;
+      --accent: #007aff;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-light);
+      color: var(--text-light);
+      line-height: 1.6;
+      transition: all 0.3s ease;
+    }
+
+    body.dark {
+      background: var(--bg-dark);
+      color: var(--text-dark);
+    }
+
+    header {
+      background-color: #ffffff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    body.dark header {
+      background-color: #1a1a1a;
+    }
+
+    header h1 {
+      font-size: 1.5rem;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+    }
+
+    nav a {
+      margin-left: 1.5rem;
+      text-decoration: none;
+      color: inherit;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    nav a:hover {
+      color: var(--accent);
+    }
+
+    .toggle-btn {
+      margin-left: 1rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: inherit;
+    }
+
+    .hero {
+      padding: 6rem 2rem 3rem;
+      text-align: center;
+      background: linear-gradient(to bottom right, #e0f7ff, #ffffff);
+    }
+
+    body.dark .hero {
+      background: linear-gradient(to bottom right, #1a1a1a, #121212);
+    }
+
+    .hero h2 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    section {
+      padding: 4rem 2rem;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      color: var(--accent);
+      text-align: center;
+    }
+
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      background-color: var(--card-light);
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+
+    body.dark .card {
+      background-color: var(--card-dark);
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card h3 {
+      margin-bottom: 0.5rem;
+    }
+
+    .card p {
+      font-size: 0.95rem;
+    }
+
+    .card button {
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+      background-color: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: background-color 0.3s ease;
+    }
+
+    .card button:hover {
+      background-color: #005fcc;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      background-color: #f1f3f5;
+      font-size: 0.9rem;
+    }
+
+    body.dark footer {
+      background-color: #1a1a1a;
+    }
+
+    @media (max-width: 600px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      nav {
+        margin-top: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <h1>Ripple Studio</h1>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+      <button class="toggle-btn" onclick="toggleDarkMode()">
+        <i data-lucide="moon"></i>
+      </button>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero" data-aos="fade-up">
+    <h2>Welcome to Ripple Studio</h2>
+    <p>Design. Innovate. Ripple through the future.</p>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" data-aos="fade-up">
+    <h2 class="section-title">About Us</h2>
+    <p>
+      Ripple Studio is a digital innovation lab building creative, interactive, and intelligent experiences.
+      From futuristic interfaces to AI-powered tools, we’re shaping the way users engage with technology.
+    </p>
+  </section>
+
+  <!-- Projects Section -->
+  <section id="projects" data-aos="fade-up">
+    <h2 class="section-title">Our Projects</h2>
+    <div class="projects">
+      <div class="card" data-aos="zoom-in">
+        <h3>Ripple Studio OS</h3>
+        <p>An operating system like Windows and MacOS.It is mainly a distro made by using Ubuntu.</p>
+        <a href="https://archive.org/details/ripple-os" target="_blank">
+          <button><i data-lucide="download"></i> Download</button>
+        </a>
+      </div>
+      <div class="card" data-aos="zoom-in">
+        <h3>Ripple Studio AI</h3>
+        <p>An intelligent assistant framework that integrates natural language interaction and automation into web environments and custom shells.</p>
+        <a href="https://ripplestudio.in/" target="_blank">
+          <button><i data-lucide="external-link"></i> Open Link</button>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" data-aos="fade-up">
+    <h2 class="section-title">Contact</h2>
+    <p style="text-align:center;">
+      Interested in collaborating or learning more?<br>
+      <strong>Email:</strong> anaymathur.rocks@gmail.com
+    </p>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    &copy; 2025 Ripple Studio. All rights reserved.
+  </footer>
+
+  <!-- JS for Dark Mode, AOS, and Icons -->
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    AOS.init();
+
+    lucide.createIcons();
+
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark');
+    }
+  </script>
+</body>
+</html>

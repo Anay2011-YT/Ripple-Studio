@@ -1,301 +1,473 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Ripple Studio</title>
-  <meta name="description" content="Ripple Studio - Digital Innovation Lab for AI, OS, and futuristic projects." />
+  <meta name="description" content="Ripple Studio - Digital Innovation Lab building AI, OS and creative web experiences." />
   <link rel="icon" href="favicon.ico" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- AOS for subtle animations -->
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
   <style>
-    :root {
-      --bg-light: #f7f9fb;
-      --bg-dark: #121212;
-      --text-light: #222;
-      --text-dark: #f1f1f1;
-      --card-light: #fff;
-      --card-dark: #1e1e1e;
+    /* -------------------------
+       Design Tokens & Reset
+       ------------------------- */
+    :root{
+      --bg: #ffffff;
+      --muted: #6b7280;
+      --text: #0f172a;
       --accent: #007aff;
+      --glass: rgba(255,255,255,0.6);
+      --card: #ffffff;
+      --shadow: 0 8px 30px rgba(15,23,42,0.06);
+      --radius: 14px;
+      --max-width: 1100px;
+      --gap: 24px;
+    }
+    html,body{height:100%}
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background:var(--bg);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    /* Dark theme tokens */
+    body.dark{
+      --bg: #0b1020;
+      --muted: #9aa3b2;
+      --text: #e6eef8;
+      --accent: #2ea3ff;
+      --glass: rgba(16,22,34,0.65);
+      --card: #0f1726;
+      --shadow: 0 12px 40px rgba(2,6,23,0.6);
     }
 
-    html {
-      scroll-behavior: smooth;
+    /* -------------------------
+       Container & Layout
+       ------------------------- */
+    .container{
+      max-width:var(--max-width);
+      margin:0 auto;
+      padding: 32px;
     }
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg-light);
-      color: var(--text-light);
-      line-height: 1.6;
-      transition: all 0.3s ease;
-    }
-
-    body.dark {
-      background: var(--bg-dark);
-      color: var(--text-dark);
-    }
-
-    header {
-      background-color: #ffffff;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    /* -------------------------
+       Header (Apple-like)
+       ------------------------- */
+    header.site-header{
       position: sticky;
-      top: 0;
-      z-index: 1000;
+      top:0;
+      z-index:1200;
+      backdrop-filter: blur(8px);
+      background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.4));
+      border-bottom: 1px solid rgba(0,0,0,0.04);
+    }
+    body.dark header.site-header{
+      background: linear-gradient(180deg, rgba(10,14,22,0.55), rgba(10,14,22,0.38));
+      border-bottom: 1px solid rgba(255,255,255,0.03);
     }
 
-    body.dark header {
-      background-color: #1a1a1a;
+    .site-header .container {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      padding-top:20px;
+      padding-bottom:20px;
     }
 
-    header h1 {
-      font-size: 1.5rem;
+    .brand {
+      display:flex;
+      align-items:center;
+      gap:14px;
+    }
+    .logo {
+      height:36px;
+      width:36px;
+      border-radius:9px;
+      display:inline-grid;
+      place-items:center;
+      font-weight:700;
+      color:white;
+      background: linear-gradient(135deg,var(--accent),#00b0ff);
+      box-shadow: var(--shadow);
     }
 
-    nav {
-      display: flex;
-      align-items: center;
+    .brand h1{
+      font-size:18px;
+      letter-spacing: -0.02em;
+      font-weight:700;
     }
 
-    nav a {
-      margin-left: 1.5rem;
-      text-decoration: none;
-      color: inherit;
-      font-weight: 500;
-      transition: color 0.2s ease;
+    /* Centered nav (Apple-like minimal) */
+    nav.primary {
+      display:flex;
+      align-items:center;
+      gap:18px;
+    }
+    nav.primary a {
+      color:var(--muted);
+      text-decoration:none;
+      font-weight:600;
+      font-size:15px;
+      padding:8px 10px;
+      border-radius:8px;
+    }
+    nav.primary a:hover, nav.primary a.active {
+      color:var(--text);
+      background: rgba(0,0,0,0.03);
+    }
+    body.dark nav.primary a:hover, body.dark nav.primary a.active {
+      background: rgba(255,255,255,0.03);
     }
 
-    nav a:hover,
-    nav a.active {
-      color: var(--accent);
+    /* Apple-style switch */
+    .switch {
+      --w:44px;
+      --h:26px;
+      width:var(--w);
+      height:var(--h);
+      border-radius:999px;
+      padding:3px;
+      display:inline-flex;
+      align-items:center;
+      background: linear-gradient(180deg, rgba(0,0,0,0.05), rgba(0,0,0,0.02));
+      cursor:pointer;
+      transition: all 200ms ease;
     }
-
-    .toggle-btn {
-      margin-left: 1rem;
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: inherit;
+    body.dark .switch{ background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)); }
+    .switch .knob{
+      width:20px; height:20px; border-radius:50%;
+      background:white; transform:translateX(0); transition:transform 200ms cubic-bezier(.2,.9,.2,1), background 200ms;
+      box-shadow: 0 4px 10px rgba(2,6,23,0.12);
     }
+    body.dark .switch .knob{ background:#0b1220; box-shadow: 0 6px 18px rgba(2,6,23,0.6); }
+    .switch.on{ background: linear-gradient(90deg,var(--accent),#00b0ff); }
+    .switch.on .knob{ transform:translateX(18px); background:white; }
 
+    /* -------------------------
+       Hero (Apple-like, centered)
+       ------------------------- */
     .hero {
-      padding: 6rem 2rem 3rem;
-      text-align: center;
-      background: linear-gradient(to bottom right, #e0f7ff, #ffffff);
+      padding:80px 20px;
+      text-align:center;
+      display:grid;
+      place-items:center;
+      gap:28px;
     }
-
-    body.dark .hero {
-      background: linear-gradient(to bottom right, #1a1a1a, #121212);
+    .hero .eyebrow{
+      font-size:13px;
+      color:var(--muted);
+      font-weight:600;
+      letter-spacing:0.06em;
+      text-transform:uppercase;
     }
-
-    .hero h2 {
-      font-size: 2.5rem;
-      margin-bottom: 0.5rem;
+    .hero h2{
+      font-size:48px;
+      line-height:1.02;
+      font-weight:800;
+      max-width:920px;
+      margin:0 auto;
     }
-
-    section {
-      padding: 4rem 2rem;
-      max-width: 900px;
-      margin: auto;
+    .hero p{
+      font-size:18px;
+      color:var(--muted);
+      max-width:760px;
+      margin:0 auto;
     }
-
-    .section-title {
-      font-size: 2rem;
-      margin-bottom: 1.5rem;
-      color: var(--accent);
-      text-align: center;
+    .hero .cta {
+      display:flex;
+      gap:12px;
+      align-items:center;
+      justify-content:center;
+      margin-top:4px;
     }
+    .btn-primary{
+      background: linear-gradient(90deg,var(--accent), #00a3ff);
+      color:white;
+      padding:12px 18px;
+      border-radius:12px;
+      font-weight:700;
+      text-decoration:none;
+      box-shadow: 0 12px 30px rgba(2,8,23,0.08);
+    }
+    .btn-ghost{
+      background:transparent;
+      border:1px solid rgba(15,23,42,0.06);
+      padding:11px 16px;
+      border-radius:12px;
+      color:var(--text);
+      text-decoration:none;
+      font-weight:600;
+    }
+    body.dark .btn-ghost{ border-color: rgba(255,255,255,0.06); color:var(--text); }
 
-    .projects {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1.5rem;
+    /* -------------------------
+       Projects (Google-ish cards)
+       ------------------------- */
+    .projects-wrap{
+      padding: 48px 20px;
+      background: linear-gradient(180deg, rgba(250,250,252,1), rgba(250,250,252,1));
+    }
+    body.dark .projects-wrap{ background: linear-gradient(180deg, rgba(6,10,18,1), rgba(6,10,18,1)); }
+
+    .projects-grid{
+      max-width:var(--max-width);
+      margin:0 auto;
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
+      gap:var(--gap);
+      padding: 12px;
     }
 
     .card {
-      background-color: var(--card-light);
-      padding: 1.5rem;
-      border-radius: 10px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-      transition: transform 0.3s ease, background-color 0.3s ease;
+      background: var(--card);
+      border-radius:14px;
+      padding:18px;
+      box-shadow: var(--shadow);
+      transition: transform 260ms cubic-bezier(.2,.9,.2,1), box-shadow 260ms;
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+      min-height:170px;
+      overflow:hidden;
+    }
+    .card:hover{ transform: translateY(-8px); box-shadow: 0 18px 40px rgba(2,8,23,0.12); }
+
+    .thumb {
+      height:100px;
+      border-radius:10px;
+      background: linear-gradient(135deg, rgba(0,122,255,0.12), rgba(0,160,255,0.08));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:700;
+      color:var(--accent);
+      font-size:14px;
+    }
+    .card h3{ font-size:18px; margin-top:4px; }
+    .card p{ color:var(--muted); font-size:14px; line-height:1.4; }
+
+    .card .actions{ margin-top:auto; display:flex; gap:10px; align-items:center; }
+    .chip { padding:6px 10px; border-radius:999px; background:rgba(0,0,0,0.04); font-weight:700; color:var(--muted); font-size:13px; }
+    body.dark .chip{ background: rgba(255,255,255,0.03); color:var(--muted); }
+
+    /* -------------------------
+       Contact & Footer (Apple-like)
+       ------------------------- */
+    .contact {
+      padding:40px 20px;
+      text-align:center;
+      max-width:820px;
+      margin:0 auto;
+    }
+    footer.site-foot{
+      padding:26px 20px;
+      text-align:center;
+      color:var(--muted);
+      font-size:14px;
+      border-top: 1px solid rgba(0,0,0,0.04);
+      background:transparent;
+    }
+    body.dark footer.site-foot{ border-top: 1px solid rgba(255,255,255,0.03); }
+
+    /* -------------------------
+       Responsive tweaks
+       ------------------------- */
+    @media (max-width:880px){
+      .hero h2{ font-size:36px; }
+      .brand h1{ font-size:16px; }
+    }
+    @media (max-width:560px){
+      .site-header .container{ flex-direction:column; align-items:stretch; gap:12px; }
+      nav.primary { justify-content:center; flex-wrap:wrap; }
+      .hero { padding:56px 18px; }
     }
 
-    body.dark .card {
-      background-color: var(--card-dark);
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-    }
-
-    .card h3 {
-      margin-bottom: 0.5rem;
-    }
-
-    .card p {
-      font-size: 0.95rem;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-top: 1rem;
-      padding: 0.5rem 1rem;
-      background-color: var(--accent);
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: 500;
-      text-decoration: none;
-      transition: background-color 0.3s ease;
-    }
-
-    .btn:hover {
-      background-color: #005fcc;
-    }
-
-    footer {
-      text-align: center;
-      padding: 2rem;
-      background-color: #f1f3f5;
-      font-size: 0.9rem;
-      color: inherit;
-      border-top: 1px solid rgba(0,0,0,0.1);
-    }
-
-    body.dark footer {
-      background-color: #1a1a1a;
-      border-top: 1px solid rgba(255,255,255,0.1);
-    }
-
-    @media (max-width: 600px) {
-      header {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      nav {
-        margin-top: 1rem;
-      }
-    }
+    /* Accessibility focus */
+    a:focus, button:focus{ outline:3px solid rgba(0,122,255,0.15); outline-offset:4px; border-radius:8px; }
   </style>
 </head>
 <body>
 
   <!-- Header -->
-  <header>
-    <h1>Ripple Studio</h1>
-    <nav>
-      <a href="#about">About</a>
-      <a href="#projects">Projects</a>
-      <a href="#contact">Contact</a>
-      <button class="toggle-btn" onclick="toggleDarkMode()">
-        <i data-lucide="moon"></i>
-      </button>
-    </nav>
+  <header class="site-header" role="banner">
+    <div class="container">
+      <div class="brand" aria-hidden="false">
+        <div class="logo" aria-hidden="true">R</div>
+        <h1>Ripple Studio</h1>
+      </div>
+
+      <nav class="primary" role="navigation" aria-label="primary navigation">
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+
+        <!-- Apple-style toggle -->
+        <div id="themeToggle" class="switch" role="button" aria-label="Toggle color theme" tabindex="0" title="Toggle theme">
+          <div class="knob"></div>
+        </div>
+      </nav>
+    </div>
   </header>
 
-  <!-- Hero Section -->
-  <section class="hero" data-aos="fade-up">
-    <h2>Welcome to Ripple Studio</h2>
-    <p>Design. Innovate. Ripple through the future.</p>
-  </section>
-
-  <!-- About Section -->
-  <section id="about" data-aos="fade-up">
-    <h2 class="section-title">About Us</h2>
-    <p>
-      Ripple Studio is a digital innovation lab building creative, interactive, and intelligent experiences.
-      From futuristic interfaces to AI-powered tools, we’re shaping the way users engage with technology.
-    </p>
-  </section>
-
-  <!-- Projects Section -->
-  <section id="projects" data-aos="fade-up">
-    <h2 class="section-title">Our Projects</h2>
-    <div class="projects">
-      <div class="card" data-aos="zoom-in">
-        <h3>Ripple Studio OS</h3>
-        <p>An operating system like Windows and MacOS. It is mainly a distro made by using Ubuntu.</p>
-        <a href="https://archive.org/details/ripple-os" target="_blank" class="btn">
-          <i data-lucide="download"></i> Download
-        </a>
+  <!-- Hero -->
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="container">
+        <div class="eyebrow" data-aos="fade-up">Digital Innovation Lab</div>
+        <h2 id="hero-title" data-aos="fade-up" data-aos-delay="80">
+          Design & build elegant experiences — AI, OS, and products that ripple forward.
+        </h2>
+        <p data-aos="fade-up" data-aos-delay="160">
+          We craft minimal, fast, and human-first products for the web and the desktop. Explore our projects and collaborations.
+        </p>
+        <div class="cta" data-aos="fade-up" data-aos-delay="240">
+          <a class="btn-primary" href="#projects">Explore Projects</a>
+          <a class="btn-ghost" href="mailto:anaymathur.rocks@gmail.com">Get in touch</a>
+        </div>
       </div>
-      <div class="card" data-aos="zoom-in">
-        <h3>Ripple Studio AI</h3>
-        <p>An intelligent assistant framework that integrates natural language interaction and automation into web environments and custom shells.</p>
-        <a href="http://ripplestudioai.in/#" target="_blank" class="btn">
-          <i data-lucide="external-link"></i> Open Link
-        </a>
-      </div>
-      <div class="card" data-aos="zoom-in">
-        <h3>RippleTube</h3>
-        <p>RippleTube is your all-in-one platform to discover, watch, and share incredible videos. Create your own channel, upload content, and connect with a global community of creators and viewers.</p>
-        <a href="https://rippletube.base44.app" target="_blank" class="btn">
-          <i data-lucide="video"></i> Visit RippleTube
-        </a>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Contact Section -->
-  <section id="contact" data-aos="fade-up">
-    <h2 class="section-title">Contact</h2>
-    <p style="text-align:center;">
-      Interested in collaborating or learning more?<br>
-      <strong>Email:</strong> anaymathur.rocks@gmail.com
-    </p>
-  </section>
+    <!-- Projects (Google-like cards) -->
+    <section id="projects" class="projects-wrap" aria-labelledby="projects-title">
+      <div class="container">
+        <h2 id="projects-title" style="text-align:center; font-weight:700; margin-bottom:18px; color: var(--text);">Our Projects</h2>
+
+        <div class="projects-grid" role="list">
+          <!-- Ripple Studio OS -->
+          <article class="card" role="listitem" data-aos="fade-up" data-aos-delay="50">
+            <div class="thumb" aria-hidden="true">OS</div>
+            <h3>Ripple Studio OS</h3>
+            <p>An approachable Ubuntu-based distro that mimics the familiarity of desktop environments while staying lightweight and customizable.</p>
+            <div class="actions">
+              <a class="chip" href="https://archive.org/details/ripple-os" target="_blank" rel="noopener">Download</a>
+              <div style="flex:1"></div>
+              <span style="color:var(--muted); font-size:13px;">System • Desktop</span>
+            </div>
+          </article>
+
+          <!-- Ripple Studio AI -->
+          <article class="card" role="listitem" data-aos="fade-up" data-aos-delay="120">
+            <div class="thumb" aria-hidden="true">AI</div>
+            <h3>Ripple Studio AI</h3>
+            <p>An intelligent assistant framework designed to integrate natural language interaction, automation, and web-native tools in web shells and apps.</p>
+            <div class="actions">
+              <a class="chip" href="http://ripplestudioai.in/#" target="_blank" rel="noopener">Open</a>
+              <div style="flex:1"></div>
+              <span style="color:var(--muted); font-size:13px;">Assistant • Automation</span>
+            </div>
+          </article>
+
+          <!-- RippleTube -->
+          <article class="card" role="listitem" data-aos="fade-up" data-aos-delay="190">
+            <div class="thumb" aria-hidden="true">RT</div>
+            <h3>RippleTube</h3>
+            <p>RippleTube is your all-in-one platform to discover, watch, and share incredible videos. Create your own channel, upload content, and connect with a global community of creators and viewers.</p>
+            <div class="actions">
+              <a class="chip" href="https://rippletube.base44.app" target="_blank" rel="noopener">Visit RippleTube</a>
+              <div style="flex:1"></div>
+              <span style="color:var(--muted); font-size:13px;">Media • Video</span>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="contact" aria-labelledby="contact-title" data-aos="fade-up">
+      <h2 id="contact-title" style="font-weight:700; margin-bottom:8px;">Contact</h2>
+      <p style="color:var(--muted); margin-bottom:14px;">Interested in collaborating or learning more? Send a message or drop us an email.</p>
+      <a class="btn-primary" href="mailto:anaymathur.rocks@gmail.com">anaymathur.rocks@gmail.com</a>
+    </section>
+  </main>
 
   <!-- Footer -->
-  <footer>
-    &copy; 2025 Ripple Studio. All rights reserved.
+  <footer class="site-foot" role="contentinfo">
+    <div class="container">
+      <div style="max-width:900px;margin:0 auto;">
+        <small>&copy; <span id="year"></span> Ripple Studio. All rights reserved.</small>
+      </div>
+    </div>
   </footer>
 
-  <!-- JS for Dark Mode, AOS, and Icons -->
+  <!-- Scripts: AOS, icons, theme, nav highlight -->
   <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
   <script>
-    AOS.init();
-    lucide.createIcons();
+    // Initialize AOS and Lucide icons
+    AOS.init({ once: true, duration: 700, easing: 'cubic-bezier(.2,.9,.2,1)' });
+    if (typeof lucide !== 'undefined') lucide.createIcons();
 
-    // Dark mode with persistence
-    function toggleDarkMode() {
-      document.body.classList.toggle('dark');
-      localStorage.setItem("theme", document.body.classList.contains("dark") ? "dark" : "light");
+    // Set year in footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // THEME TOGGLE (Apple-style switch)
+    const themeToggle = document.getElementById('themeToggle');
+    function setTheme(isDark){
+      if(isDark){
+        document.body.classList.add('dark');
+        themeToggle.classList.add('on');
+        themeToggle.setAttribute('aria-pressed','true');
+      } else {
+        document.body.classList.remove('dark');
+        themeToggle.classList.remove('on');
+        themeToggle.setAttribute('aria-pressed','false');
+      }
+      try{ localStorage.setItem('ripple-theme', isDark ? 'dark' : 'light'); }catch(e){}
     }
 
-    if (localStorage.getItem("theme") === "dark") {
-      document.body.classList.add("dark");
-    }
+    // Load saved theme or system preference
+    (function(){
+      let saved = null;
+      try{ saved = localStorage.getItem('ripple-theme'); }catch(e){ saved = null; }
+      if(saved){
+        setTheme(saved === 'dark');
+      } else {
+        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        setTheme(prefersDark);
+      }
+    })();
 
-    // Highlight active nav link on scroll
-    const sections = document.querySelectorAll("section[id]");
-    const navLinks = document.querySelectorAll("nav a");
+    // Toggle handlers
+    function toggleTheme(){ setTheme(!document.body.classList.contains('dark')); }
+    themeToggle.addEventListener('click', toggleTheme);
+    themeToggle.addEventListener('keydown', (e)=>{ if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleTheme(); } });
 
-    window.addEventListener("scroll", () => {
-      let current = "";
-      sections.forEach(section => {
-        const sectionTop = section.offsetTop - 100;
-        if (pageYOffset >= sectionTop) {
-          current = section.getAttribute("id");
-        }
+    // Highlight nav links on scroll (simple)
+    const navLinks = document.querySelectorAll('nav.primary a');
+    const sections = document.querySelectorAll('main section[id], main section[aria-labelledby]');
+    function onScrollHighlight(){
+      let current = '';
+      sections.forEach(sec => {
+        const rect = sec.getBoundingClientRect();
+        if(rect.top <= 120) current = sec.id || sec.getAttribute('aria-labelledby');
       });
-      navLinks.forEach(link => {
-        link.classList.remove("active");
-        if (link.getAttribute("href") === `#${current}`) {
-          link.classList.add("active");
+      navLinks.forEach(a=>{
+        a.classList.remove('active');
+        const target = a.getAttribute('href').replace('#','');
+        if(target && (target === current || a.getAttribute('href') === `#${current}`)) a.classList.add('active');
+      });
+    }
+    window.addEventListener('scroll', onScrollHighlight, { passive:true });
+    onScrollHighlight();
+
+    // Smoothly focus sections when nav clicked (accessibility)
+    navLinks.forEach(a=>{
+      a.addEventListener('click', (e)=>{
+        // allow normal anchor behavior but ensure focus for keyboard users
+        const href = a.getAttribute('href');
+        if(href && href.startsWith('#')){
+          const el = document.querySelector(href);
+          if(el){ setTimeout(()=>el.setAttribute('tabindex','-1'), 300); }
         }
       });
     });

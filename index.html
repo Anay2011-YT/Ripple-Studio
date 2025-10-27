@@ -10,12 +10,34 @@
     *{box-sizing:border-box}
     html,body{height:100%;margin:0;background:linear-gradient(180deg,#061026 0%, #08142a 60%);color:#e6eef6;scroll-behavior:smooth}
     a{color:var(--accent);text-decoration:none;cursor:pointer}
+    a:hover {text-decoration: underline;} /* Added: Hover effect for general links */
     header{backdrop-filter: blur(6px);position:sticky;top:0;z-index:50}
     .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;max-width:1100px;margin:0 auto}
     .brand{display:flex;align-items:center;gap:12px}
     .logo{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#36d1dc,#5b86e5);display:grid;place-items:center;font-weight:800;color:#042;box-shadow:0 6px 20px rgba(0,0,0,0.45)}
     nav ul{display:flex;gap:14px;list-style:none;padding:0;margin:0}
-    .cta{padding:8px 12px;border-radius:10px;background:linear-gradient(90deg,#00d1b2,#4cc9f0);color:#042;font-weight:700}
+    
+    /* Added: Styling for navigation links */
+    .nav-link { 
+        padding: 4px 8px;
+        border-radius: 6px;
+        color: var(--muted);
+        transition: color 0.15s ease;
+    }
+    .nav-link:hover {
+        color: #fff;
+        text-decoration: none;
+    }
+    .nav-link.active { /* Added: Style for the active navigation link */
+        color: #fff;
+        background: rgba(255, 255, 255, 0.1);
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .cta{padding:8px 12px;border-radius:10px;background:linear-gradient(90deg,#00d1b2,#4cc9f0);color:#042;font-weight:700;display:inline-block;} /* Added: display:inline-block to CTA */
+    .cta:hover {opacity: 0.9; text-decoration: none;} /* Added: Hover for CTA */
+    
     main{max-width:1100px;margin:42px auto;padding:0 20px}
     section{display:none;animation:fade .3s ease}
     section.active{display:block}
@@ -38,10 +60,10 @@
       </div>
       <nav>
         <ul>
-          <li><a data-page="home">Home</a></li>
-          <li><a data-page="os">Ripple Studio OS</a></li>
-          <li><a data-page="ai">Ripple Studio AI</a></li>
-          <li><a data-page="contact">Contact</a></li>
+          <li><a class="nav-link active" data-page="home">Home</a></li>
+          <li><a class="nav-link" data-page="os">Ripple Studio OS</a></li>
+          <li><a class="nav-link" data-page="ai">Ripple Studio AI</a></li>
+          <li><a class="nav-link" data-page="contact">Contact</a></li>
         </ul>
       </nav>
     </div>
@@ -130,13 +152,22 @@
   <script>
     document.querySelectorAll('a[data-page]').forEach(link => {
       link.addEventListener('click', e => {
+        // 1. Remove 'active' class from all sections
         document.querySelectorAll('section').forEach(sec => sec.classList.remove('active'));
+        
+        // 2. Add 'active' class to the target section
         document.getElementById(link.dataset.page).classList.add('active');
+        
+        // 3. Remove 'active' class from all navigation links (new step)
+        document.querySelectorAll('.nav-link').forEach(navLink => navLink.classList.remove('active'));
+        
+        // 4. Add 'active' class to the clicked navigation link (new step)
+        link.classList.add('active');
+        
+        // 5. Scroll to the top
         window.scrollTo({top:0,behavior:'smooth'});
       });
     });
   </script>
 </body>
 </html>
-
-
